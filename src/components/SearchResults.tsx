@@ -1,12 +1,14 @@
 import React from "react";
-import { User } from "../types";
+import { useNavigate } from "react-router-dom";
+import { UserFromSearch } from "../types";
 import lastMatchCalc from "../utils/lastMatchCalc";
 
 interface listProps {
-  users: User[];
+  users: UserFromSearch[];
 }
 
 export default function SearchResults({ users }: listProps) {
+  const navigate = useNavigate();
   return (
     <ul
       className={
@@ -20,6 +22,7 @@ export default function SearchResults({ users }: listProps) {
             key={user.account_id}
             style={{ cursor: "pointer" }}
             className="list-group-item list-group-item-action border-0 border-bottom d-flex justify-content-between p-2"
+            onClick={() => navigate(`/players/${user.account_id}`)}
           >
             <div className="d-inline">
               <img
@@ -30,7 +33,7 @@ export default function SearchResults({ users }: listProps) {
               ></img>
               <p className="lead d-inline align-middle">{user.personaname}</p>
             </div>
-            <p className="lead d-inline align-middle my-auto">
+            <p className="lead d-inline align-middle my-auto text-muted">
               <small>{lastMatchCalc(user.last_match_time)}</small>
             </p>
           </li>
